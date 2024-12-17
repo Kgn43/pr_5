@@ -1,0 +1,6 @@
+order_pk;order.order_id;order.user_id;order.pair_id;order.quantity;order.price;order.type;order.closed;
+
+1;943718360;146;3;27;2.29;buy;None;
+2;915367697;146;1;31;9.84;sell;None;
+3;577673425;146;21;36;4.89;sell;None;
+4;753048084;146;5;31;8.69;buy;None;
