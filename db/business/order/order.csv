@@ -1,0 +1,2 @@
+order_pk;order.order_id;order.user_id;order.pair_id;order.quantity;order.price;order.type;order.closed;
+

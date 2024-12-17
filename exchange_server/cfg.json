@@ -6,8 +6,8 @@
         "USDT",
         "USDC"
     ],
-    "DB_ip": "127.0.0.1",
-    "DB_port": 7433,
-    "stock_exchange_ip": "127.0.0.1",
+    "DB_ip": "db",
+    "DB_port": 7432,
+    "stock_exchange_ip": "0.0.0.0",
     "stock_exchange_port": 7137
 }

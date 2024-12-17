@@ -1,4 +1,6 @@
 FROM python
 WORKDIR /
 COPY . .
+EXPOSE 7433
+EXPOSE 7137
 ENTRYPOINT ["python", "main.py"]

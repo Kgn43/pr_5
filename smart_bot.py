@@ -66,12 +66,7 @@ def is_enough_money(addr, num : float, id : string, x_key):
 
 def main():
     bot_name = set_bot_name()
-    address = ''
-    with open('cfg.json', 'r', encoding='utf-8') as config:
-        config = load(config)
-        ip = config["stock_exchange_ip"]
-        port = config["stock_exchange_port"]
-        address += f"http://{ip}:{port}"
+    address = 'http://127.0.0.1:81'
     x_key = get_X_key(bot_name, address + '/user')
     pairs = send_request(address + "/pair")
     right_pairs = get_right_pairs(address, "1")

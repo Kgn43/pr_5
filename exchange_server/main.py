@@ -1,18 +1,19 @@
 from exchanger_server import *
-
+from time import sleep
 from socketserver import TCPServer
 from json import load
 import json
 
 
 def main():
-    with open('../cfg.json', 'r', encoding='utf-8') as cfg:
+    with open('cfg.json', 'r', encoding='utf-8') as cfg:
         config = json.load(cfg)
         dB_ip = config["DB_ip"]
         dB_port = config["DB_port"]
         stock_exchange_ip = config["stock_exchange_ip"]
         stock_exchange_port = config["stock_exchange_port"]
     try:
+        sleep(5)
         connect_to_db(dB_ip, int(dB_port))
     except ConnectionRefusedError:
         print(f"Failed to connect to DB {dB_ip}:{dB_port}")
