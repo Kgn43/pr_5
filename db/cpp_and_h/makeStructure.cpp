@@ -12,12 +12,14 @@ void lotNames(const nlohmann::json& structureJSON) {
     std::ifstream jsonFile ("../cfg.json");
     nlohmann::json structure = nlohmann::json::parse(jsonFile);
     for (int i = 0; i < structure["lots"].size(); i++) {
-        std::string erq = "insert into lot values " + structure["lots"][i].get<std::string>();
+        std::string erq = "insert into lot values " + std::to_string(i + 1) + ' ' + structure["lots"][i].get<std::string>();
         userQuery(erq, structureJSON);
     }
+    int ctr = 0;
     for (int i = 0; i < structure["lots"].size(); i++) {
         for (int j = 0; j < structure["lots"].size(); ++j) {
-            std::string erq = "insert into pair values " + structure["lots"][i].get<std::string>() + ' ' + structure["lots"][j].get<std::string>();
+          ctr++;
+            std::string erq = "insert into pair values " + std::to_string(ctr) + ' ' + structure["lots"][i].get<std::string>() + ' ' + structure["lots"][j].get<std::string>();
             userQuery(erq, structureJSON);
         }
     }
