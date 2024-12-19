@@ -27,7 +27,7 @@ def send_request(addr, body = {}, headers = {}):
     try:
         result = ans.json()
     except JSONDecodeError:
-        raise ValueError("wrong request or answer")
+        return "wrong request or answer"
     return result
 
 def get_right_pairs(addr, id : string):
@@ -68,9 +68,11 @@ def main():
     bot_name = set_bot_name()
     address = 'http://127.0.0.1:81'
     x_key = get_X_key(bot_name, address + '/user')
+    print(x_key)
     pairs = send_request(address + "/pair")
     right_pairs = get_right_pairs(address, "1")
     left_pairs = get_left_pairs(address, "1")
+    skipd_orders = []
     while True:
         orders = send_request(address + "/order")
         for order in orders:
@@ -86,13 +88,14 @@ def main():
                         continue
                     sale_lot = pair["sale_lot_id"]
                     buy_lot = pair["buy_lot_id"]
-                    print(order["order_id"])
+                    if order["order_id"] in skipd_orders:
+                        continue
                     reversed_id = get_reversed_pair(pairs, sale_lot, buy_lot)
                     quantity = order["quantity"]
                     price = order["price"]
                     if is_enough_money(address, float(quantity) * float(price), buy_lot, x_key):
-                        print("sneding")
-                        send_request(address + "/order", {
+                        print(f"try sell {order["order_id"]}")
+                        res = send_request(address + "/order", {
                             "pair_id": pid,
                             "quantity": quantity,
                             "price": price,
@@ -100,6 +103,7 @@ def main():
                         }, {
                             "X-USER-KEY": x_key
                         })
+                        skipd_orders.append(order["order_id"])
             else:
                 for pair in left_pairs:
                     pid = pair["pair_id"]
@@ -107,13 +111,14 @@ def main():
                         continue
                     sale_lot = pair["sale_lot_id"]
                     buy_lot = pair["buy_lot_id"]
-                    print(order["order_id"])
+                    if order["order_id"] in skipd_orders:
+                        continue
                     reversed_id = get_reversed_pair(pairs, sale_lot, buy_lot)
                     quantity = order["quantity"]
                     price = order["price"]
                     if is_enough_money(address, float(quantity) * float(price), sale_lot, x_key): #id - от 1 до 5 (buy_loy_id/sell_lot_id)
-                        print("sneding")
-                        send_request(address + "/order", {
+                        print(f"try buy {order["order_id"]}")
+                        res = send_request(address + "/order", {
                             "pair_id": pid,
                             "quantity": quantity,
                             "price": price,
@@ -121,6 +126,7 @@ def main():
                         }, {
                             "X-USER-KEY": x_key
                         })
+                        skipd_orders.append(order["order_id"])
         sleep(2)
 
 if __name__ == "__main__":

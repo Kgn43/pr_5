@@ -19,6 +19,7 @@ enum commands{
     Insert,
     Del,
     Select,
+    GetPk,
     Wrong
 };
 

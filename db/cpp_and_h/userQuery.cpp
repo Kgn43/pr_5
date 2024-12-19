@@ -5,6 +5,7 @@ commands commandRequest(const std::string &input){
     if(input == "insert") return commands::Insert;
     if (input == "delete") return commands::Del;
     if (input == "select") return commands::Select;
+    if (input == "getPk") return commands::GetPk;
     return commands::Wrong;
 }
 
@@ -27,6 +28,11 @@ string selectRes() {
 }
 
 
+string getPk(const json& structure, const arr<string> &inputQuery) {
+    return to_string(getCurrPk(static_cast<string>(structure["name"]) + "/" + inputQuery[1] + "/" + inputQuery[1]));
+}
+
+
 string userQuery(const string& userQuery, const json& structureJSON){
     const arr<string> query = splitToArr(userQuery);
     if (query.get_size() == 0){
@@ -44,6 +50,8 @@ string userQuery(const string& userQuery, const json& structureJSON){
             case Select:
                 select(structureJSON, query);
                 return selectRes();
+            case GetPk:
+            return getPk(structureJSON, query);
             case Wrong:
                 throw runtime_error("Wrong syntax");
         }

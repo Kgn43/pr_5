@@ -57,6 +57,7 @@ bool isItColumn(json structure, const string& name) {
         for (const auto & colName : it.value()){
             if (colName == name) return true;
         }
+        if (static_cast<string>(it.key()) + "_pk" == name) return true;
     }
     return false;
 }
@@ -67,6 +68,7 @@ string findTableName(json structure, const string& name){
         for (const auto & colName : it.value()){
             if (colName == name) return it.key();
         }
+        if (static_cast<string>(it.key()) + "_pk" == name) return static_cast<string>(it.key());
     }
     return "";
 }

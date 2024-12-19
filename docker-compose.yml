@@ -21,7 +21,7 @@ services:
     ports:
       - "7432:7432"
     volumes:
-      - ./db/business:/db/business
+      - .db:/db/business
       - ./db/strktr.json:/strktr.json
     restart: always
 
